@@ -33,7 +33,7 @@ no_bmake_in_linux()
 command -v git >/dev/null 2>&1 && echo 'git installed' || not_installed_git
 test -e $BBSBUILD && mv $BBSBUILD $BBSHOME/tmp/pttbbs.`date +%s`
 test -e $THIS_BBSBUILD || git clone $REPO_LINK
-cd $THIS_BBSBUILD/ && git checkout $CURRENT_COMMIT && git apply $THIS_BUILD/0001-Revert-Remove-innbbsd.patch && rm -rf $THIS_BBSBUILD/.git
+cd $THIS_BBSBUILD/ && git checkout $CURRENT_COMMIT && git apply $THIS_BUILD/0001-Revert-Remove-innbbsd.patch
 test -e $THIS_BUILD/pttbbs.conf && cp $THIS_BUILD/pttbbs.conf $THIS_BBSBUILD/ || ( cp $THIS_BBSBUILD/sample/pttbbs.conf $THIS_BBSBUILD/ && detect_os && cd $THIS_BUILD)
 cp -rf $THIS_BBSBUILD $BBSHOME/
 cd $BBSBUILD && make_pttbbs
