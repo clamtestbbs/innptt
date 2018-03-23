@@ -1,0 +1,29 @@
+#!/bin/sh
+
+REPO_LINK=https://github.com/ptt/pttbbs
+CURRENT_COMMIT=dc5320f
+BBSHOME=$HOME
+BBSBUILD=$BBSHOME/pttbbs
+THIS_BUILD=$HOME/innptt
+THIS_BBSBUILD=$THIS_BUILD/pttbbs
+
+detect_os()
+{
+    test `uname -m` = amd64 && sed -i '' -e 's/\/\/\#define\ TIMET64/\#define TIMET64/g' $THIS_BBSBUILD/pttbbs.conf
+    test `uname -m` = amd64 && test `uname` = Linux && sed -i '' -e 's/\/\/\#define\ SHMALIGNEDSIZE\ \(1048576*4\)/\#define\ SHMALIGNEDSIZE\ \(1048576\*4\)/g' $THIS_BBSBUILD/pttbbs.conf
+}
+
+not_installed_git()
+{
+    echo -e "please install \"git\""
+    exit 1
+}
+
+command -v git >/dev/null 2>&1 && echo 'git installed' || not_installed_git
+test -e $BBSBUILD && mv $BBSBUILD $BBSHOME/tmp/pttbbs.`date +%s`
+test -e $THIS_BBSBUILD && rm -rf $THIS_BBSBUILD
+git clone $REPO_LINK
+cd $THIS_BBSBUILD/ && git checkout $CURRENT_COMMIT && git apply $THIS_BUILD/0001-Revert-Remove-innbbsd.patch && rm -rf $THIS_BBSBUILD/.git
+test -e $THIS_BUILD/pttbbs.conf && cp $THIS_BUILD/pttbbs.conf $THIS_BBSBUILD/ || ( cp $THIS_BBSBUILD/sample/pttbbs.conf $THIS_BBSBUILD/ && detect_os && cd $THIS_BUILD)
+cp -rf $THIS_BBSBUILD $BBSHOME/
+cd $BBSBUILD && make all install clean
