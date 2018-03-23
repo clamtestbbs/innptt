@@ -19,11 +19,21 @@ not_installed_git()
     exit 1
 }
 
+make_pttbbs()
+{
+    test `uname` = FreeBSD && make all install clean || (command -v bmake >/dev/null 2>&1 && bmake all install clean || no_bmake_in_linux )
+}
+
+no_bmake_in_linux()
+{
+    echo -e "please install \"bmake\/pmake\""
+    exit 1
+}
+		
 command -v git >/dev/null 2>&1 && echo 'git installed' || not_installed_git
 test -e $BBSBUILD && mv $BBSBUILD $BBSHOME/tmp/pttbbs.`date +%s`
-test -e $THIS_BBSBUILD && rm -rf $THIS_BBSBUILD
-git clone $REPO_LINK
+test -e $THIS_BBSBUILD || git clone $REPO_LINK
 cd $THIS_BBSBUILD/ && git checkout $CURRENT_COMMIT && git apply $THIS_BUILD/0001-Revert-Remove-innbbsd.patch && rm -rf $THIS_BBSBUILD/.git
 test -e $THIS_BUILD/pttbbs.conf && cp $THIS_BUILD/pttbbs.conf $THIS_BBSBUILD/ || ( cp $THIS_BBSBUILD/sample/pttbbs.conf $THIS_BBSBUILD/ && detect_os && cd $THIS_BUILD)
 cp -rf $THIS_BBSBUILD $BBSHOME/
-cd $BBSBUILD && make all install clean
+cd $BBSBUILD && make_pttbbs
