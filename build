@@ -40,7 +40,7 @@ apply_wsproxy_lib()
 }
 		
 command -v git >/dev/null 2>&1 && echo 'git installed' || not_installed_git
-#test -e $BBSBUILD && mkdir -p $BBSHOME/tmp && mv $BBSBUILD $BBSHOME/tmp/pttbbs.`date +%s`
+test -e $BBSBUILD && mkdir -p $BBSHOME/tmp && mv $BBSBUILD $BBSHOME/tmp/pttbbs.`date +%s`
 test -e $THIS_BBSBUILD && rm -rf $THIS_BBSBUILD
 cd $THIS_BUILD && git clone $REPO_LINK
 cd $THIS_BBSBUILD && git checkout $CURRENT_COMMIT && env && git apply $THIS_BUILD/0001-Revert-Remove-innbbsd.patch
