@@ -29,7 +29,7 @@ make_pttbbs()
 
 no_bmake_in_linux()
 {
-    echo -e "please install \"bmake\/pmake\""
+    echo -e "please install or get more configuration info about \"bmake/pmake\""
     exit 1
 }
 		
