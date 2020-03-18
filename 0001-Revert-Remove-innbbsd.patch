@@ -1,4 +1,4 @@
-From 495799484df2dd625f7429561d5e45c239f77540 Mon Sep 17 00:00:00 2001
+From 1f1aee9f024c0ba869efe8f84522ad0b137bff35 Mon Sep 17 00:00:00 2001
 From: holishing <holishingtest@gmail.com>
 Date: Thu, 14 Dec 2017 21:40:31 +0800
 Subject: [PATCH] Revert "Remove innbbsd."
@@ -21,39 +21,39 @@ try if innbbsd still works. XD
  innbbsd/COPYRIGHT.nocem   |   11 +
  innbbsd/Makefile          |   78 ++
  innbbsd/antisplam.h       |   25 +
- innbbsd/bbslib.c          |  747 ++++++++++++++++++
+ innbbsd/bbslib.c          |  747 +++++++++++++++
  innbbsd/bbslib.h          |   62 ++
- innbbsd/bbslink.c         | 1812 +++++++++++++++++++++++++++++++++++++++++++
- innbbsd/bbsnnrp.c         | 1248 ++++++++++++++++++++++++++++++
- innbbsd/clibrary.h        |  142 ++++
+ innbbsd/bbslink.c         | 1812 +++++++++++++++++++++++++++++++++++
+ innbbsd/bbsnnrp.c         | 1248 ++++++++++++++++++++++++
+ innbbsd/clibrary.h        |  142 +++
  innbbsd/closeonexec.c     |   39 +
- innbbsd/connectsock.c     |  428 ++++++++++
+ innbbsd/connectsock.c     |  428 +++++++++
  innbbsd/ctlinnbbsd.c      |  170 ++++
  innbbsd/daemon.c          |  162 ++++
  innbbsd/daemon.h          |   54 ++
- innbbsd/dbz.c             | 1885 +++++++++++++++++++++++++++++++++++++++++++++
+ innbbsd/dbz.c             | 1885 +++++++++++++++++++++++++++++++++++++
  innbbsd/dbz.h             |   37 +
  innbbsd/dbztool.c         |   61 ++
- innbbsd/echobbslib.c      |  746 ++++++++++++++++++
+ innbbsd/echobbslib.c      |  746 +++++++++++++++
  innbbsd/externs.h         |   79 ++
  innbbsd/file.c            |   17 +
- innbbsd/his.c             |  409 ++++++++++
- innbbsd/his.h             |   45 ++
- innbbsd/innbbsconf.h      |  177 +++++
- innbbsd/innbbsd.c         |  790 +++++++++++++++++++
+ innbbsd/his.c             |  409 ++++++++
+ innbbsd/his.h             |   45 +
+ innbbsd/innbbsconf.h      |  177 ++++
+ innbbsd/innbbsd.c         |  790 ++++++++++++++++
  innbbsd/innbbsd.h         |    9 +
- innbbsd/inncheck.pl       |   47 ++
- innbbsd/inndchannel.c     |  683 ++++++++++++++++
- innbbsd/inntobbs.c        |  343 +++++++++
+ innbbsd/inncheck.pl       |   46 +
+ innbbsd/inndchannel.c     |  683 ++++++++++++++
+ innbbsd/inntobbs.c        |  343 +++++++
  innbbsd/inntobbs.h        |   39 +
  innbbsd/mkhistory.c       |   17 +
- innbbsd/nntp.h            |  141 ++++
- innbbsd/nocem.c           |  638 +++++++++++++++
+ innbbsd/nntp.h            |  141 +++
+ innbbsd/nocem.c           |  638 +++++++++++++
  innbbsd/nocem.h           |   57 ++
  innbbsd/pmain.c           |   65 ++
  innbbsd/port.c            |   35 +
- innbbsd/receive_article.c | 1138 +++++++++++++++++++++++++++
- innbbsd/rfc931.c          |  147 ++++
+ innbbsd/receive_article.c | 1138 ++++++++++++++++++++++
+ innbbsd/rfc931.c          |  147 +++
  mbbsd/admin.c             |   12 +-
  mbbsd/announce.c          |    4 +-
  mbbsd/bbs.c               |   70 +-
@@ -75,9 +75,9 @@ try if innbbsd still works. XD
  util/account.c            |    1 +
  util/dailybackup.pl       |    2 +-
  util/initbbs.c            |   20 +-
- util/inndBM.c             |  201 +++++
+ util/inndBM.c             |  201 ++++
  util/shmctl.c             |    4 +-
- 64 files changed, 12977 insertions(+), 48 deletions(-)
+ 64 files changed, 12976 insertions(+), 48 deletions(-)
  create mode 100644 innbbsd/COPYRIGHT.nocem
  create mode 100644 innbbsd/Makefile
  create mode 100644 innbbsd/antisplam.h
@@ -139,7 +139,7 @@ index 70daa74f..5cf6e4aa 100644
 +# XXX innbbsd depends on util
 +.ORDER: all-util all-innbbsd
 diff --git a/README b/README
-index 2fb683f2..616b0c9c 100644
+index 1f359054..e864801e 100644
 --- a/README
 +++ b/README
 @@ -23,6 +23,7 @@
@@ -164,7 +164,7 @@ index 36447c7a..26dd7215 100644
  
  /* ----------------------------------------------------- */
 diff --git a/include/proto.h b/include/proto.h
-index 74ff2008..35848e4c 100644
+index 0e97445b..d7d1dd0b 100644
 --- a/include/proto.h
 +++ b/include/proto.h
 @@ -216,8 +216,8 @@ int main_dark(int fd,userinfo_t *uin);
@@ -179,10 +179,10 @@ index 74ff2008..35848e4c 100644
  void write_header(FILE *fp, const char *mytitle);
  void addsignature(FILE *fp, int ifuseanony);
 diff --git a/include/pttstruct.h b/include/pttstruct.h
-index 8a94c87f..76347e7f 100644
+index 377a6001..cfbfb469 100644
 --- a/include/pttstruct.h
 +++ b/include/pttstruct.h
-@@ -204,7 +204,7 @@ typedef struct boardheader_t { /* 256 bytes */
+@@ -205,7 +205,7 @@ typedef struct boardheader_t { /* 256 bytes */
  // TODO BRD 快爆了，怎麼辦？ 準備從 pad3 偷一個來當 attr2 吧...
  // #define BRD_NOZAP       	0x00000001	/* 不可 ZAP */
  #define BRD_NOCOUNT		0x00000002	/* 不列入統計 */
@@ -191,7 +191,7 @@ index 8a94c87f..76347e7f 100644
  #define BRD_GROUPBOARD		0x00000008	/* 群組板 */
  #define BRD_HIDE		0x00000010	/* 隱藏板 (看板好友才可看) */
  #define BRD_POSTMASK		0x00000020	/* 限制發表或閱讀 */
-@@ -219,7 +219,7 @@ typedef struct boardheader_t { /* 256 bytes */
+@@ -220,7 +220,7 @@ typedef struct boardheader_t { /* 256 bytes */
  #define BRD_BMCOUNT		0x00004000	/* 板主設定列入記錄 */
  #define BRD_SYMBOLIC		0x00008000	/* symbolic link to board */
  #define BRD_NOBOO		0x00010000	/* 不可噓 */
@@ -219,7 +219,7 @@ index 00000000..fdd43b20
 +#               permission notice appear in all copies.
 diff --git a/innbbsd/Makefile b/innbbsd/Makefile
 new file mode 100644
-index 00000000..b4d3d9dd
+index 00000000..756bbbe0
 --- /dev/null
 +++ b/innbbsd/Makefile
 @@ -0,0 +1,78 @@
@@ -237,7 +237,7 @@ index 00000000..b4d3d9dd
 +.else
 +# Linux為了 innbbsd額外需加的參數
 +inn_CFLAGS=	-DGETRUSAGE
-+inn_LDFLAGS=	
++inn_LDFLAGS=
 +.endif
 +
 +CFLAGS+=	-DVERSION=\"${VERSION}\"		\
@@ -277,7 +277,7 @@ index 00000000..b4d3d9dd
 +	${CC} -o $@ ${LDFLAGS} $> ${LINK_UTIL_OBJS} $(LDLIBS)
 +
 +bbslink:	bbslink.o pmain.o inntobbs.o echobbslib.o connectsock.o \
-+		file.o port.o 
++		file.o port.o
 +	${CC} -o $@ ${LDFLAGS} $> ${LINK_UTIL_OBJS} $(LDLIBS)
 +
 +bbsnnrp:	bbsnnrp.o pmain.o bbslib.o connectsock.o file.o
@@ -1155,7 +1155,7 @@ index 00000000..2aebcb96
 +#endif
 diff --git a/innbbsd/bbslink.c b/innbbsd/bbslink.c
 new file mode 100644
-index 00000000..0c1e6b04
+index 00000000..4af264d3
 --- /dev/null
 +++ b/innbbsd/bbslink.c
 @@ -0,0 +1,1812 @@
@@ -1183,7 +1183,7 @@ index 00000000..0c1e6b04
 + * TODO 1. read newsfeeds.bbs, read nodelist.bbs, read bbsname.bbs 2. scan
 + * new posts and append to .link 3. rename .link to .send (must lock) 4.
 + * start to send .send out and append not sent to .link
-+ * 
++ *
 + * 5. node.LOCK (with pid) 6. log articles sent
 + */
 +
@@ -2540,7 +2540,7 @@ index 00000000..0c1e6b04
 +
 +/*
 + * send_article() send_nntplink() read_outgoing()
-+ * 
++ *
 + */
 +
 +void
@@ -2973,7 +2973,7 @@ index 00000000..0c1e6b04
 +}
 diff --git a/innbbsd/bbsnnrp.c b/innbbsd/bbsnnrp.c
 new file mode 100644
-index 00000000..84b05b48
+index 00000000..49edd48b
 --- /dev/null
 +++ b/innbbsd/bbsnnrp.c
 @@ -0,0 +1,1248 @@
@@ -3058,7 +3058,7 @@ index 00000000..84b05b48
 +int writerc(nnrp_t *);
 +int INNBBSihave(nnrp_t *, int, char *);
 +
-+void 
++void
 +doterm(s)
 +    int             s;
 +{
@@ -3634,7 +3634,7 @@ index 00000000..84b05b48
 +    return re;
 +}
 +
-+int 
++int
 +NNRPstat(bbsnnrp, artno, mid)
 +    nnrp_t         *bbsnnrp;
 +    int             artno;
@@ -3686,7 +3686,7 @@ index 00000000..84b05b48
 +    return code;
 +}
 +
-+int 
++int
 +NNRPxhdrget(artno, mid, iscontrol)
 +    int            *artno;
 +    char          **mid;
@@ -3718,7 +3718,7 @@ index 00000000..84b05b48
 +    }
 +}
 +
-+int 
++int
 +INNBBSstat(bbsnnrp, i, mid)
 +    nnrp_t         *bbsnnrp;
 +    int             i;
@@ -3733,7 +3733,7 @@ index 00000000..84b05b48
 +    return atol(INNBBSbuffer);
 +}
 +
-+int 
++int
 +INNBBSihave(bbsnnrp, artno, mid)
 +    nnrp_t         *bbsnnrp;
 +    int             artno;
@@ -4208,7 +4208,7 @@ index 00000000..84b05b48
 +	}
 +	unlink(LockFile);
 +    }
-+     /* NntpInputType */ 
++     /* NntpInputType */
 +    else {
 +	if (!initial_bbs(NULL)) {
 +	    fprintf(stderr, "Initial BBS failed\n");
@@ -4227,13 +4227,13 @@ index 00000000..84b05b48
 +}
 diff --git a/innbbsd/clibrary.h b/innbbsd/clibrary.h
 new file mode 100644
-index 00000000..1248e650
+index 00000000..98bc2a75
 --- /dev/null
 +++ b/innbbsd/clibrary.h
 @@ -0,0 +1,142 @@
 +/*
 + * $Revision: 1.1 $ *
-+ * 
++ *
 + *  Here be declarations of routines and variables in the C library. *  You
 + * must #include <sys/types.h> and <stdio.h> before this file.
 + */
@@ -4375,13 +4375,13 @@ index 00000000..1248e650
 +#endif
 diff --git a/innbbsd/closeonexec.c b/innbbsd/closeonexec.c
 new file mode 100644
-index 00000000..b41fdd69
+index 00000000..df5b695b
 --- /dev/null
 +++ b/innbbsd/closeonexec.c
 @@ -0,0 +1,39 @@
 +/*
 + * $Revision: 1.1 $ *
-+ * 
++ *
 + */
 +/* #include "configdata.h" */
 +#include <stdio.h>
@@ -4420,7 +4420,7 @@ index 00000000..b41fdd69
 +#endif				/* defined(CLX_FCNTL) */
 diff --git a/innbbsd/connectsock.c b/innbbsd/connectsock.c
 new file mode 100644
-index 00000000..0dd32b03
+index 00000000..77de885a
 --- /dev/null
 +++ b/innbbsd/connectsock.c
 @@ -0,0 +1,428 @@
@@ -4445,7 +4445,7 @@ index 00000000..0dd32b03
 +}
 +
 +extern int      errno;
-+static void 
++static void
 +reapchild(s)
 +    int             s;
 +{
@@ -4455,7 +4455,7 @@ index 00000000..0dd32b03
 +    }
 +}
 +
-+void 
++void
 +dokill(s)
 +    int             s;
 +{
@@ -4463,14 +4463,14 @@ index 00000000..0dd32b03
 +}
 +
 +static          int INETDstart = 0;
-+void 
++void
 +startfrominetd(int flag)
 +{
 +    INETDstart = flag;
 +}
 +
 +
-+void 
++void
 +standalonesetup(fd)
 +    int             fd;
 +{
@@ -4493,7 +4493,7 @@ index 00000000..0dd32b03
 +    halt = haltfunc;
 +}
 +
-+void 
++void
 +docompletehalt(s)
 +    int             s;
 +{
@@ -4505,7 +4505,7 @@ index 00000000..0dd32b03
 +    /* dokill(); */
 +}
 +
-+void 
++void
 +doremove(s)
 +    int             s;
 +{
@@ -4631,7 +4631,7 @@ index 00000000..0dd32b03
 +    return s;
 +}
 +
-+int 
++int
 +open_unix_listen(path, protocol, initfunc)
 +    char           *path;
 +    char           *protocol;
@@ -4653,7 +4653,7 @@ index 00000000..0dd32b03
 +    return s;
 +}
 +
-+int 
++int
 +open_listen(service, protocol, initfunc)
 +    char           *service;
 +    char           *protocol;
@@ -4678,7 +4678,7 @@ index 00000000..0dd32b03
 +    return s;
 +}
 +
-+int 
++int
 +inetsingleserver(service, protocol, serverfunc, initfunc)
 +    char           *service;
 +    char           *protocol;
@@ -4717,7 +4717,7 @@ index 00000000..0dd32b03
 +}
 +
 +
-+int 
++int
 +tryaccept(s)
 +    int             s;
 +{
@@ -4736,7 +4736,7 @@ index 00000000..0dd32b03
 +    return ns;
 +}
 +
-+int 
++int
 +inetserver(service, protocol, serverfunc)
 +    char           *service;
 +    char           *protocol;
@@ -4780,7 +4780,7 @@ index 00000000..0dd32b03
 +    return 0;
 +}
 +
-+int 
++int
 +inetclient(server, service, protocol)
 +    char           *server;
 +    char           *protocol;
@@ -5030,7 +5030,7 @@ index 00000000..ed80b9f1
 +}
 diff --git a/innbbsd/daemon.c b/innbbsd/daemon.c
 new file mode 100644
-index 00000000..8709fa45
+index 00000000..aff8ccfd
 --- /dev/null
 +++ b/innbbsd/daemon.c
 @@ -0,0 +1,162 @@
@@ -5039,7 +5039,7 @@ index 00000000..8709fa45
 +/*
 + * typedef struct daemoncmd { char *cmdname; char *usage; int argc; int
 + * (*main) ARG((FILE*,FILE*,int,char**,char*)); } daemoncmd_t;
-+ * 
++ *
 + */
 +
 +void deargify   ARG((char ***));
@@ -5048,7 +5048,7 @@ index 00000000..8709fa45
 +static int      startupcode = 100;
 +typedef int     (*F) ();
 +
-+void 
++void
 +installdaemon(cmds, code, startupmsg)
 +    daemoncmd_t    *cmds;
 +    int             code;
@@ -5077,7 +5077,7 @@ index 00000000..8709fa45
 +#if 0
 +static FILE    *DIN, *DOUT, *DIO;
 +
-+int 
++int
 +daemon(dfd)
 +    int             dfd;
 +{
@@ -5161,7 +5161,7 @@ index 00000000..8709fa45
 +#define MAX_ARG 32
 +#define MAX_ARG_SIZE 16384
 +
-+int 
++int
 +argify(line, argvp)
 +    char           *line, ***argvp;
 +{
@@ -5186,7 +5186,7 @@ index 00000000..8709fa45
 +    return argv - *argvp;
 +}
 +
-+void 
++void
 +deargify(argv)
 +    char         ***argv;
 +{
@@ -5258,38 +5258,38 @@ index 00000000..36384a20
 +#endif
 diff --git a/innbbsd/dbz.c b/innbbsd/dbz.c
 new file mode 100644
-index 00000000..08b038e3
+index 00000000..13107cc2
 --- /dev/null
 +++ b/innbbsd/dbz.c
 @@ -0,0 +1,1885 @@
 +/*
 + * dbz.c  V3.2
-+ * 
++ *
 + * Copyright 1988 Jon Zeeff (zeeff@b-tech.ann-arbor.mi.us) You can use this code
 + * in any manner, as long as you leave my name on it and don't hold me
 + * responsible for any problems with it.
-+ * 
++ *
 + * Hacked on by gdb@ninja.UUCP (David Butler); Sun Jun  5 00:27:08 CDT 1988
-+ * 
++ *
 + * Various improvments + INCORE by moraes@ai.toronto.edu (Mark Moraes)
-+ * 
++ *
 + * Major reworking by Henry Spencer as part of the C News project.
-+ * 
++ *
 + * Minor lint and CodeCenter (Saber) fluff removal by Rich $alz (March, 1991).
 + * Non-portable CloseOnExec() calls added by Rich $alz (September, 1991).
 + * Added "writethrough" and tagmask calculation code from
 + * <rob@violet.berkeley.edu> and <leres@ee.lbl.gov> by Rich $alz (December,
 + * 1992). Merged in MMAP code by David Robinson, formerly
 + * <david@elroy.jpl.nasa.gov> now <david.robinson@sun.com> (January, 1993).
-+ * 
++ *
 + * These routines replace dbm as used by the usenet news software (it's not a
 + * full dbm replacement by any means).  It's fast and simple.  It contains no
 + * AT&T code.
-+ * 
++ *
 + * In general, dbz's files are 1/20 the size of dbm's.  Lookup performance is
 + * somewhat better, while file creation is spectacularly faster, especially
 + * if the incore facility is used.
-+ * 
++ *
 + */
 +
 +#include <stdio.h>
@@ -5305,7 +5305,7 @@ index 00000000..08b038e3
 +
 +/*
 + * #ifdef index.  "LIA" = "leave it alone unless you know what you're doing".
-+ * 
++ *
 + * FUNNYSEEKS	SEEK_SET is not 0, get it from <unistd.h> INDEX_SIZE
 + * backward compatibility with old dbz; avoid using this NMEMORY
 + * number of days of memory for use in sizing new table (LIA) INCORE
@@ -5341,7 +5341,7 @@ index 00000000..08b038e3
 + * copy of the `key' part.  This avoids the need to store a copy of the key
 + * in the dbz files.  However, the text file *must* exist and be consistent
 + * with the dbz files, or things will fail.
-+ * 
++ *
 + * The basic format of the database is a simple hash table containing the
 + * values.  A value is stored by indexing into the table using a hash value
 + * computed from the key; collisions are resolved by linear probing (just
@@ -5355,7 +5355,7 @@ index 00000000..08b038e3
 + * table N+1.  This behaves reasonably well even in cases of massive
 + * overflow.  There are some other small complications added, see comments
 + * below.
-+ * 
++ *
 + * The table size is fixed for any particular database, but is determined
 + * dynamically when a database is rebuilt.  The strategy is to try to pick
 + * the size so the first table will be no more than 2/3 full, that being
@@ -5445,7 +5445,7 @@ index 00000000..08b038e3
 +/*
 + * We read configuration info from the .dir file into this structure, so we
 + * can avoid wired-in assumptions for an existing database.
-+ * 
++ *
 + * Among the info is a record of recent peak usages, so that a new table size
 + * can be chosen intelligently when rebuilding.  10 is a good number of
 + * usages to keep, since news displays marked fluctuations in volume on a
@@ -5500,11 +5500,11 @@ index 00000000..08b038e3
 + * deal with the possibility that there isn't enough memory.  There *is* an
 + * assumption that a size_t is big enough to hold the size (in bytes) of one
 + * table, so dbminit() tries to figure out whether this is possible first.
-+ * 
++ *
 + * The preferred way to ask for an in-core table is to do dbzincore(1) before
 + * dbminit().  The default is not to do it, although -DINCORE overrides this
 + * for backward compatibility with old dbz.
-+ * 
++ *
 + * We keep only the first table in core.  This greatly simplifies the code, and
 + * bounds memory demand.  Furthermore, doing this is a large performance win
 + * even in the event of massive overflow.
@@ -5773,7 +5773,7 @@ index 00000000..08b038e3
 +
 +/*
 + * - isprime - is a number prime?
-+ * 
++ *
 + * This is not a terribly efficient approach.
 + */
 +static int			/* predicate */
@@ -5909,7 +5909,7 @@ index 00000000..08b038e3
 +
 +/*
 + * - dbminit - open a database, creating it (using defaults) if necessary
-+ * 
++ *
 + * We try to leave errno set plausibly, to the extent that underlying functions
 + * permit this, since many people consult it if dbminit() fails.
 + */
@@ -6192,7 +6192,7 @@ index 00000000..08b038e3
 +
 +/*
 + * - fetch - get an entry from the database
-+ * 
++ *
 + * Disgusting fine point, in the name of backward compatibility:  if the last
 + * character of "key" is a NUL, that character is (effectively) not part of
 + * the comparison against the stored keys.
@@ -6844,7 +6844,7 @@ index 00000000..08b038e3
 +
 +/*
 + * - mybytemap - determine this machine's byte map
-+ * 
++ *
 + * A byte map is an array of ints, sizeof(of_t) of them.  The 0th int is the
 + * byte number of the high-order byte in my of_t, and so forth.
 + */
@@ -6907,11 +6907,11 @@ index 00000000..08b038e3
 +/*
 + * This is a simplified version of the pathalias hashing function. Thanks to
 + * Steve Belovin and Peter Honeyman
-+ * 
++ *
 + * hash a string into a long int.  31 bit crc (from andrew appel). the crc table
 + * is computed at run time by crcinit() -- we could precompute, but it takes
 + * 1 clock tick on a 750.
-+ * 
++ *
 + * This fast table calculation works only if POLY is a prime polynomial in the
 + * field of integers modulo 2.  Since the coefficients of a 32-bit polynomial
 + * won't fit in a 32-bit word, the high-order bit is implicit.  IT MUST ALSO
@@ -6919,7 +6919,7 @@ index 00000000..08b038e3
 + * Happily, we have candidates, from E. J.  Watson, "Primitive Polynomials
 + * (Mod 2)", Math. Comp. 16 (1962): x^32 + x^7 + x^5 + x^3 + x^2 + x^1 + x^0
 + * x^31 + x^3 + x^0
-+ * 
++ *
 + * We reverse the bits to get: 111101010000000000000000000000001 but drop the
 + * last 1 f   5   0   0   0   0   0   0 010010000000000000000000000000001
 + * ditto, for 31-bit crc 4   8   0   0   0   0   0   0
@@ -6967,15 +6967,15 @@ index 00000000..08b038e3
 +
 +/*
 + * case-mapping stuff
-+ * 
++ *
 + * Borrowed from C News, by permission of the authors.  Somewhat modified.
-+ * 
++ *
 + * We exploit the fact that we are dealing only with headers here, and headers
 + * are limited to the ASCII characters by RFC822.  It is barely possible that
 + * we might be dealing with a translation into another character set, but in
 + * particular it's very unlikely for a header character to be outside
 + * -128..255.
-+ * 
++ *
 + * Life would be a whole lot simpler if tolower() could safely and portably be
 + * applied to any char.
 + */
@@ -7094,7 +7094,7 @@ index 00000000..08b038e3
 +
 +/*
 + * - cipoint - where in this message-ID does it become case-insensitive?
-+ * 
++ *
 + * The RFC822 code is not quite complete.  Absolute, total, full RFC822
 + * compliance requires a horrible parsing job, because of the arcane quoting
 + * conventions -- abc"def"ghi is not equivalent to abc"DEF"ghi, for example.
@@ -7192,7 +7192,7 @@ index 00000000..bef0512f
 +#endif /* _DBZ_H */
 diff --git a/innbbsd/dbztool.c b/innbbsd/dbztool.c
 new file mode 100644
-index 00000000..74291494
+index 00000000..7d6e669c
 --- /dev/null
 +++ b/innbbsd/dbztool.c
 @@ -0,0 +1,61 @@
@@ -7244,7 +7244,7 @@ index 00000000..74291494
 +    }
 +}
 +
-+int 
++int
 +storeDB(mid, paths)
 +    char           *mid;
 +    char           *paths;
@@ -8119,13 +8119,13 @@ index 00000000..c8f4a896
 +}
 diff --git a/innbbsd/his.c b/innbbsd/his.c
 new file mode 100644
-index 00000000..ae504a8d
+index 00000000..2934c1df
 --- /dev/null
 +++ b/innbbsd/his.c
 @@ -0,0 +1,409 @@
 +/*
 + * $Revision: 1.1 $ *
-+ * 
++ *
 + *  History file routines.
 + */
 +#include <stdlib.h>
@@ -8768,7 +8768,7 @@ index 00000000..c24eb309
 +#endif
 diff --git a/innbbsd/innbbsd.c b/innbbsd/innbbsd.c
 new file mode 100644
-index 00000000..74db6f44
+index 00000000..63f8742c
 --- /dev/null
 +++ b/innbbsd/innbbsd.c
 @@ -0,0 +1,790 @@
@@ -8798,7 +8798,7 @@ index 00000000..74db6f44
 +
 +/*
 + * <  add <mid> <recno> ... >  200 OK <  quit 500 BYE
-+ * 
++ *
 + * >  300 DBZ Server ... <  query <mid> >  250 <recno> ... >  450 NOT FOUND!
 + */
 +
@@ -9007,13 +9007,13 @@ index 00000000..74db6f44
 +    shutdownflag = 1;
 +}
 +
-+int 
++int
 +INNBBSDshutdown(void)
 +{
 +    return shutdownflag;
 +}
 +
-+static int 
++static int
 +CMDshutdown(client)
 +    ClientType     *client;
 +{
@@ -9032,7 +9032,7 @@ index 00000000..74db6f44
 +    return 1;
 +}
 +
-+static int 
++static int
 +CMDmode(client)
 +    ClientType     *client;
 +{
@@ -9154,7 +9154,7 @@ index 00000000..74db6f44
 +}
 +
 +#ifdef MALLOCMAP
-+static int 
++static int
 +CMDmallocmap(client)
 +    ClientType     *client;
 +{
@@ -9183,7 +9183,7 @@ index 00000000..74db6f44
 +#endif
 +
 +#ifdef GETRUSAGE
-+static int 
++static int
 +CMDgetrusage(client)
 +    ClientType     *client;
 +{
@@ -9221,7 +9221,7 @@ index 00000000..74db6f44
 +
 +#endif
 +
-+static int 
++static int
 +CMDhismaint(client)
 +    ClientType     *client;
 +{
@@ -9241,7 +9241,7 @@ index 00000000..74db6f44
 +    return 1;
 +}
 +
-+static int 
++static int
 +CMDreload(client)
 +    ClientType     *client;
 +{
@@ -9260,7 +9260,7 @@ index 00000000..74db6f44
 +    return 1;
 +}
 +
-+static int 
++static int
 +CMDverboselog(client)
 +    ClientType     *client;
 +{
@@ -9288,7 +9288,7 @@ index 00000000..74db6f44
 +	       isverboselog() ? "ON" : "OFF");
 +}
 +
-+static int 
++static int
 +CMDmidcheck(client)
 +    ClientType     *client;
 +{
@@ -9310,7 +9310,7 @@ index 00000000..74db6f44
 +	       client->midcheck == 1 ? "ON" : "OFF");
 +}
 +
-+static int 
++static int
 +CMDgrephist(client)
 +    ClientType     *client;
 +{
@@ -9340,7 +9340,7 @@ index 00000000..74db6f44
 +}
 +
 +
-+static int 
++static int
 +CMDaddhist(client)
 +    ClientType     *client;
 +{
@@ -9383,7 +9383,7 @@ index 00000000..74db6f44
 +    return 1;
 +}
 +
-+static int 
++static int
 +CMDstat(client)
 +    ClientType     *client;
 +{
@@ -9418,7 +9418,7 @@ index 00000000..74db6f44
 +}
 +
 +#ifndef DBZSERVER
-+static int 
++static int
 +CMDihave(client)
 +    ClientType     *client;
 +{
@@ -9526,7 +9526,7 @@ index 00000000..74db6f44
 +}
 +#endif
 +
-+static int 
++static int
 +CMDhelp(client)
 +    ClientType     *client;
 +{
@@ -9545,7 +9545,7 @@ index 00000000..74db6f44
 +    return 0;
 +}
 +
-+static int 
++static int
 +CMDquit(client)
 +    ClientType     *client;
 +{
@@ -9579,10 +9579,10 @@ index 00000000..90a019d1
 +#endif
 diff --git a/innbbsd/inncheck.pl b/innbbsd/inncheck.pl
 new file mode 100644
-index 00000000..2b98a305
+index 00000000..9e95531f
 --- /dev/null
 +++ b/innbbsd/inncheck.pl
-@@ -0,0 +1,47 @@
+@@ -0,0 +1,46 @@
 +#!/usr/bin/perl
 +use IO::Socket::INET;
 +$BBSHOME = '/home/bbs';
@@ -9629,10 +9629,9 @@ index 00000000..2b98a305
 +	print "$line: group not found ($gname)\n";
 +    }
 +}
-+
 diff --git a/innbbsd/inndchannel.c b/innbbsd/inndchannel.c
 new file mode 100644
-index 00000000..187a7d49
+index 00000000..a7abf111
 --- /dev/null
 +++ b/innbbsd/inndchannel.c
 @@ -0,0 +1,683 @@
@@ -10099,7 +10098,7 @@ index 00000000..187a7d49
 +    }
 +}
 +
-+int 
++int
 +channelreader(client)
 +    ClientType     *client;
 +{
@@ -10144,7 +10143,7 @@ index 00000000..187a7d49
 +{
 +}
 +
-+void 
++void
 +dopipesig(s)
 +    int             s;
 +{
@@ -10152,7 +10151,7 @@ index 00000000..187a7d49
 +    signal(SIGPIPE, dopipesig);
 +}
 +
-+int 
++int
 +standaloneinit(port)
 +    char           *port;
 +{
@@ -10321,7 +10320,7 @@ index 00000000..187a7d49
 +}
 diff --git a/innbbsd/inntobbs.c b/innbbsd/inntobbs.c
 new file mode 100644
-index 00000000..2a22f5aa
+index 00000000..46f1254d
 --- /dev/null
 +++ b/innbbsd/inntobbs.c
 @@ -0,0 +1,343 @@
@@ -10558,7 +10557,7 @@ index 00000000..2a22f5aa
 +    }
 +}
 +
-+int 
++int
 +headercmp(a, b)
 +    header_t       *a, *b;
 +{
@@ -10634,7 +10633,7 @@ index 00000000..2a22f5aa
 +	HEADER[i] = NULL;
 +}
 +
-+int 
++int
 +headervalue(inputheader)
 +    char           *inputheader;
 +{
@@ -10738,13 +10737,13 @@ index 00000000..98e0a6ab
 +}
 diff --git a/innbbsd/nntp.h b/innbbsd/nntp.h
 new file mode 100644
-index 00000000..78129d7c
+index 00000000..dff20add
 --- /dev/null
 +++ b/innbbsd/nntp.h
 @@ -0,0 +1,141 @@
 +/*
 + * $Revision: 1.1 $ *
-+ * 
++ *
 + *  Here be a set of NNTP response codes as defined in RFC977 and elsewhere. *
 + * The reponse codes are three digits, RFI, defined like this: *	R,
 + * Response: *		1xx	Informative message *		2xx
@@ -11704,24 +11703,24 @@ index 00000000..fab82771
 +#endif
 diff --git a/innbbsd/receive_article.c b/innbbsd/receive_article.c
 new file mode 100644
-index 00000000..90325748
+index 00000000..cd82731a
 --- /dev/null
 +++ b/innbbsd/receive_article.c
 @@ -0,0 +1,1138 @@
 +
 +/*
 + * BBS implementation dependendent part
-+ * 
++ *
 + * The only two interfaces you must provide
-+ * 
++ *
 + * #include "inntobbs.h" int receive_article(); 0 success not 0 fail
-+ * 
++ *
 + * if (storeDB(HEADER[MID_H], hispaths) < 0) { .... fail }
-+ * 
++ *
 + * int cancel_article_front( char *msgid );          0 success not 0 fail
-+ * 
++ *
 + * char *ptr = (char*)DBfetch(msgid);
-+ * 
++ *
 + * 收到之文章內容 (body)在 char *BODY, 檔頭 (header)在 char *HEADER[] SUBJECT_H,
 + * FROM_H, DATE_H, MID_H, NEWSGROUPS_H, NNTPPOSTINGHOST_H, NNTPHOST_H,
 + * CONTROL_H, PATH_H, ORGANIZATION_H
@@ -11729,7 +11728,7 @@ index 00000000..90325748
 +
 +/*
 + * Sample Implementation
-+ * 
++ *
 + * receive_article()         --> post_article()   --> bbspost_write_post();
 + * cacnel_article_front(mid) --> cancel_article() --> bbspost_write_cancel();
 + */
@@ -12506,7 +12505,7 @@ index 00000000..90325748
 +    {
 +	userid[IDLEN-1] = '.';
 +	userid[IDLEN] = '\0';
-+    }	
++    }
 +    strcpy(header.owner, userid);
 +    strncpy(header.title, subject, TTLEN);
 +    /* no need to apply this... FILE_MULTI is used for mail group reply only now. */
@@ -12848,7 +12847,7 @@ index 00000000..90325748
 +#endif
 diff --git a/innbbsd/rfc931.c b/innbbsd/rfc931.c
 new file mode 100644
-index 00000000..ac4fe7f8
+index 00000000..ea317f95
 --- /dev/null
 +++ b/innbbsd/rfc931.c
 @@ -0,0 +1,147 @@
@@ -12857,11 +12856,11 @@ index 00000000..ac4fe7f8
 + * protocols. It consults an RFC 931 etc. compatible daemon on the client
 + * host to look up the remote user name. The information should not be used
 + * for authentication purposes.
-+ * 
++ *
 + * Diagnostics are reported through syslog(3).
-+ * 
++ *
 + * Author: Wietse Venema, Eindhoven University of Technology, The Netherlands.
-+ * 
++ *
 + * Inspired by the authutil package (comp.sources.unix volume 22) by Dan
 + * Bernstein (brnstnd@kramden.acf.nyu.edu).
 + */
@@ -12896,7 +12895,7 @@ index 00000000..ac4fe7f8
 +
 +/* timeout - handle timeouts */
 +
-+static void 
++static void
 +timeout(sig)
 +    int             sig;
 +{
@@ -13000,10 +12999,10 @@ index 00000000..ac4fe7f8
 +    return (result);
 +}
 diff --git a/mbbsd/admin.c b/mbbsd/admin.c
-index ca0c8ce9..25d76219 100644
+index c0cadd78..3a6cf161 100644
 --- a/mbbsd/admin.c
 +++ b/mbbsd/admin.c
-@@ -849,8 +849,10 @@ m_mod_board(char *bname)
+@@ -954,8 +954,10 @@ m_mod_board(char *bname)
  	    const char* brd_symbol;
  	    if (newbh.brdattr & BRD_GROUPBOARD)
          	brd_symbol = "Σ";
@@ -13015,7 +13014,7 @@ index ca0c8ce9..25d76219 100644
  
  	    newbh.title[5] = brd_symbol[0];
  	    newbh.title[6] = brd_symbol[1];
-@@ -1011,7 +1013,7 @@ m_newbrd(int whatclass, int recover)
+@@ -1116,7 +1118,7 @@ m_newbrd(int whatclass, int recover)
              return -1;
          }
      }
@@ -13024,7 +13023,7 @@ index ca0c8ce9..25d76219 100644
  #ifdef DEFAULT_AUTOCPLOG
      newboard.brdattr |= BRD_CPLOG;
  #endif
-@@ -1034,8 +1036,10 @@ m_newbrd(int whatclass, int recover)
+@@ -1139,8 +1141,10 @@ m_newbrd(int whatclass, int recover)
  	    const char* brd_symbol;
  	    if (newboard.brdattr & BRD_GROUPBOARD)
          	brd_symbol = "Σ";
@@ -13036,7 +13035,7 @@ index ca0c8ce9..25d76219 100644
  
  	    newboard.title[5] = brd_symbol[0];
  	    newboard.title[6] = brd_symbol[1];
-@@ -1121,7 +1125,7 @@ int make_board_link(const char *bname, int gid)
+@@ -1226,7 +1230,7 @@ int make_board_link(const char *bname, int gid)
  
      newboard.gid = gid;
      BRD_LINK_TARGET(&newboard) = bid;
@@ -13046,7 +13045,7 @@ index ca0c8ce9..25d76219 100644
      if (add_board_record(&newboard) < 0)
  	return -1;
 diff --git a/mbbsd/announce.c b/mbbsd/announce.c
-index 01d4eaef..925be306 100644
+index 59fe3915..828420e1 100644
 --- a/mbbsd/announce.c
 +++ b/mbbsd/announce.c
 @@ -438,7 +438,7 @@ a_newitem(menu_t * pm, int mode)
@@ -13068,10 +13067,10 @@ index 01d4eaef..925be306 100644
  		    fileheader_t    fhdr;
  		    strlcpy(fpath, path, sizeof(fpath));
 diff --git a/mbbsd/bbs.c b/mbbsd/bbs.c
-index 0fe9b7c1..9cb04ec1 100644
+index 1c4e0843..703a6b66 100644
 --- a/mbbsd/bbs.c
 +++ b/mbbsd/bbs.c
-@@ -939,6 +939,45 @@ do_select(void)
+@@ -932,6 +932,45 @@ do_select(void)
      return NEWDIRECT;
  }
  
@@ -13117,7 +13116,7 @@ index 0fe9b7c1..9cb04ec1 100644
  static int
  cancelpost(const char *direct, const fileheader_t *fh,
             int not_owned GCC_UNUSED, char *newpath, size_t sznewpath,
-@@ -963,6 +1002,12 @@ cancelpost(const char *direct, const fileheader_t *fh,
+@@ -956,6 +995,12 @@ cancelpost(const char *direct, const fileheader_t *fh,
      setbtotal(getbnum(brd));
  #endif
  
@@ -13130,7 +13129,7 @@ index 0fe9b7c1..9cb04ec1 100644
      return ret;
  }
  
-@@ -1276,7 +1321,7 @@ do_post_article(int edflags)
+@@ -1269,7 +1314,7 @@ do_post_article(int edflags)
  				   "公告" // TN_ANNOUNCE
  				  };
      boardheader_t  *bp;
@@ -13139,7 +13138,7 @@ index 0fe9b7c1..9cb04ec1 100644
      char save_title[STRLEN];
      const char *reason = "無法發文";
  
-@@ -1378,6 +1423,12 @@ do_post_article(int edflags)
+@@ -1385,6 +1430,12 @@ do_post_article(int edflags)
  	return FULLUPDATE;
  
      setutmpmode(POSTING);
@@ -13152,7 +13151,7 @@ index 0fe9b7c1..9cb04ec1 100644
  
      /* build filename */
      setbpath(fpath, currboard);
-@@ -1394,6 +1445,8 @@ do_post_article(int edflags)
+@@ -1401,6 +1452,8 @@ do_post_article(int edflags)
      edflags |= solveEdFlagByBoard(currboard, edflags);
      if (bp->brdattr & BRD_NOSELFDELPOST)
          edflags |= EDITFLAG_WARN_NOSELFDEL;
@@ -13161,7 +13160,7 @@ index 0fe9b7c1..9cb04ec1 100644
  
  #if defined(PLAY_ANGEL)
      // XXX 惡搞的 code。
-@@ -1404,7 +1457,7 @@ do_post_article(int edflags)
+@@ -1411,7 +1464,7 @@ do_post_article(int edflags)
      };
  #endif
  
@@ -13170,7 +13169,7 @@ index 0fe9b7c1..9cb04ec1 100644
      if (money == EDIT_ABORTED) {
  	unlink(fpath);
  	pressanykey();
-@@ -1466,6 +1519,8 @@ do_post_article(int edflags)
+@@ -1473,6 +1526,8 @@ do_post_article(int edflags)
  
      strlcpy(postfile.owner, owner, sizeof(postfile.owner));
      strlcpy(postfile.title, save_title, sizeof(postfile.title));
@@ -13179,7 +13178,7 @@ index 0fe9b7c1..9cb04ec1 100644
  
      setbdir(buf, currboard);
  
-@@ -1503,6 +1558,12 @@ do_post_article(int edflags)
+@@ -1510,6 +1565,12 @@ do_post_article(int edflags)
  
  	if( currmode & MODE_SELECT )
  	    append_record(currdirect, &postfile, sizeof(postfile));
@@ -13192,7 +13191,7 @@ index 0fe9b7c1..9cb04ec1 100644
  	brc_addlist(postfile.filename, postfile.modified);
  
          if (IS_OPENBRD(bp)) {
-@@ -1921,6 +1982,7 @@ edit_post(int ent, fileheader_t * fhdr, const char *direct)
+@@ -1928,6 +1989,7 @@ edit_post(int ent, fileheader_t * fhdr, const char *direct)
  
      // XXX 以現在的模式，這是個 temp file
      stampfile(fpath, &postfile);
@@ -13200,7 +13199,7 @@ index 0fe9b7c1..9cb04ec1 100644
  
      // copying takes long time, add some visual effect
      grayout(0, b_lines-2, GRAYOUT_DARK);
-@@ -1942,7 +2004,7 @@ edit_post(int ent, fileheader_t * fhdr, const char *direct)
+@@ -1949,7 +2011,7 @@ edit_post(int ent, fileheader_t * fhdr, const char *direct)
      }
  #endif
  
@@ -13209,7 +13208,7 @@ index 0fe9b7c1..9cb04ec1 100644
          unlink(fpath);
          return FULLUPDATE;
      }
-@@ -2278,6 +2340,8 @@ cross_post(int ent, fileheader_t * fhdr, const char *direct)
+@@ -2290,6 +2352,8 @@ cross_post(int ent, fileheader_t * fhdr, const char *direct)
  	 */
  	setbdir(fname, xboard);
  	append_record(fname, &xfile, sizeof(xfile));
@@ -13259,7 +13258,7 @@ index 092094f3..941bd832 100644
  	brdlist_foot();
      }
 diff --git a/mbbsd/edit.c b/mbbsd/edit.c
-index b2c0762d..b5c16ccb 100644
+index 9f82115d..4982baf2 100644
 --- a/mbbsd/edit.c
 +++ b/mbbsd/edit.c
 @@ -1733,7 +1733,7 @@ write_header(FILE * fp,  const char *mytitle)
@@ -13271,7 +13270,7 @@ index b2c0762d..b5c16ccb 100644
  
      }
      fprintf(fp, "標題: %s\n時間: %s\n", mytitle, ctime4(&now));
-@@ -1913,7 +1913,7 @@ static void upload_file(void);
+@@ -1921,7 +1921,7 @@ static void upload_file(void);
  // 		KEEP_EDITING	if keep editing
  // 		0		if write ok & exit
  static int
@@ -13280,7 +13279,7 @@ index b2c0762d..b5c16ccb 100644
             int flags, int *pentropy)
  {
      FILE           *fp = NULL;
-@@ -1947,7 +1947,14 @@ write_file(const char *fpath, int saveheader, char mytitle[STRLEN],
+@@ -1955,7 +1955,14 @@ write_file(const char *fpath, int saveheader, char mytitle[STRLEN],
          }
  
          // common trail
@@ -13296,7 +13295,7 @@ index b2c0762d..b5c16ccb 100644
      }
  
  #ifdef EXP_EDIT_UPLOAD
-@@ -2003,7 +2010,19 @@ write_file(const char *fpath, int saveheader, char mytitle[STRLEN],
+@@ -2011,7 +2018,19 @@ write_file(const char *fpath, int saveheader, char mytitle[STRLEN],
  	    strlcpy(mytitle, ans, STRLEN);
  	return KEEP_EDITING;
      case 's':
@@ -13317,7 +13316,7 @@ index b2c0762d..b5c16ccb 100644
      }
  
      if (!aborted) {
-@@ -2048,6 +2067,9 @@ write_file(const char *fpath, int saveheader, char mytitle[STRLEN],
+@@ -2056,6 +2075,9 @@ write_file(const char *fpath, int saveheader, char mytitle[STRLEN],
      if (aborted)
  	return aborted;
  
@@ -13327,7 +13326,7 @@ index b2c0762d..b5c16ccb 100644
      if (curr_buf->sitesig_string)
  	fputs(curr_buf->sitesig_string, fp);
  
-@@ -3547,7 +3569,7 @@ upload_file(void)
+@@ -3556,7 +3578,7 @@ upload_file(void)
   * 由於各處都以 == EDIT_ABORTED 判斷, 若想傳回其他負值要注意
   */
  int
@@ -13336,7 +13335,7 @@ index b2c0762d..b5c16ccb 100644
  {
      char            last = 0;	/* the last key you press */
      int             ch, tmp;
-@@ -3721,7 +3743,7 @@ vedit2(const char *fpath, int saveheader, char title[STRLEN], int flags)
+@@ -3730,7 +3752,7 @@ vedit2(const char *fpath, int saveheader, char title[STRLEN], int flags)
  	    case KEY_F10:
  	    case Ctrl('X'):	/* Save and exit */
  		block_cancel();
@@ -13345,7 +13344,7 @@ index b2c0762d..b5c16ccb 100644
                                   &entropy);
  		if (tmp != KEEP_EDITING) {
  		    currutmp->mode = mode0;
-@@ -4177,10 +4199,10 @@ vedit2(const char *fpath, int saveheader, char title[STRLEN], int flags)
+@@ -4186,10 +4208,10 @@ vedit2(const char *fpath, int saveheader, char title[STRLEN], int flags)
  }
  
  int
@@ -13358,7 +13357,7 @@ index b2c0762d..b5c16ccb 100644
  }
  
  /**
-@@ -4191,7 +4213,7 @@ vedit(const char *fpath, int saveheader, char title[STRLEN])
+@@ -4200,7 +4222,7 @@ vedit(const char *fpath, int saveheader, char title[STRLEN])
  int
  veditfile(const char *fpath)
  {
@@ -13426,7 +13425,7 @@ index bfeb46af..dd41104d 100644
  	if (bcache[getbnum(xboard) - 1].brdattr & BRD_COOLDOWN)
  	    add_cooldowntime(usernum, 5);
 diff --git a/mbbsd/var.c b/mbbsd/var.c
-index d6398eb4..4758aa3f 100644
+index 7b698d64..26cbc06c 100644
 --- a/mbbsd/var.c
 +++ b/mbbsd/var.c
 @@ -78,7 +78,7 @@ const char * const str_roleid[] = {
@@ -13585,7 +13584,7 @@ index c392f744..e1cdc2ae 100644
  	angel		gamblegive	\
  	chesscountry	tunepasswd	buildir		xchatd		\
 diff --git a/util/account.c b/util/account.c
-index 9f41eac6..7a5f57a9 100644
+index fc7d6371..2c0bfc9b 100644
 --- a/util/account.c
 +++ b/util/account.c
 @@ -433,6 +433,7 @@ main(/*int argc, char **argv*/)
@@ -13700,7 +13699,7 @@ index 3fb46dd3..3c018312 100644
  	newboard(fp, &b);
 diff --git a/util/inndBM.c b/util/inndBM.c
 new file mode 100644
-index 00000000..33e1f4d6
+index 00000000..3254f850
 --- /dev/null
 +++ b/util/inndBM.c
 @@ -0,0 +1,201 @@
@@ -13712,18 +13711,18 @@ index 00000000..33e1f4d6
 +
 +#define INND_NEWSFEED  INNDHOME "/newsfeeds.bbs"
 +#define INND_NODELIST  INNDHOME "/nodelist.bbs"
-+#define INND_BADFEED   INNDHOME "/badfeeds.bbs"	
++#define INND_BADFEED   INNDHOME "/badfeeds.bbs"
 +#define INND_SCRIPT    INNDHOME "/bbsnnrpall.auto.sh"
 +
 +int istran[MAX_BOARD];
 +
-+typedef 
++typedef
 +struct newssvr_t
 +{
 +  char name[30];
 +  char address[256];
 +  char type[10];
-+}newssvr_t; 
++}newssvr_t;
 +
 +typedef
 +struct newsfeed_t
@@ -13731,7 +13730,7 @@ index 00000000..33e1f4d6
 +  char group[128];
 +  char board[15];
 +  char server[30];
-+}newsfeed_t;   
++}newsfeed_t;
 +
 +newssvr_t server[128];
 +newsfeed_t feedline[MAX_BOARD];
@@ -13750,7 +13749,7 @@ index 00000000..33e1f4d6
 +{
 +  int i;
 +  for(i=0;i<servercount;i++)
-+     if(!strcasecmp(server[i].name,name)) 
++     if(!strcasecmp(server[i].name,name))
 +	{return i;}
 +  return -1;
 +}
@@ -13806,8 +13805,8 @@ index 00000000..33e1f4d6
 +        strcpy(feedline[feedcount].board,bcache[bid-1].brdname);
 +        /*校正大小寫 */
 +
-+        istran[bid-1]=1; 
-+        
++        istran[bid-1]=1;
++
 +    }
 +    fclose(fp);
 +    fclose(fo);
@@ -13854,7 +13853,7 @@ index 00000000..33e1f4d6
 +	   {
 +	     if(get_server(feedline[i].server)==-1) continue;
 +	     if(fp) {
-+			fclose(fp);	
++			fclose(fp);
 +                        dobbsnnrp(serverstr,serverid,fpscript);
 +		    }
 +	     strcpy(serverstr,feedline[i].server);
@@ -13865,7 +13864,7 @@ index 00000000..33e1f4d6
 +          if(fp)
 +             fprintf(fp,"%-35s 0000000000 0000000000 y\r\n",feedline[i].group);
 +	}
-+    if(fp) 
++    if(fp)
 +    {
 +      dobbsnnrp(serverstr,serverid,fpscript);
 +      fclose(fp);
@@ -13885,14 +13884,14 @@ index 00000000..33e1f4d6
 +       if((bcache[i].brdattr & BRD_NOTRAN )&& istran[i])
 +         {
 +	   while(SHM->Bbusystate) {safe_sleep(1);}
-+  	   SHM->Bbusystate = 1;
++	   SHM->Bbusystate = 1;
 +           bcache[i].brdattr = bcache[i].brdattr & ~BRD_NOTRAN;
 +           strncpy(bcache[i].title + 5, "●", 2);
 +	   SHM->Bbusystate = 0;
 +
 +           substitute_record(BBSHOME"/.BRD", &bcache[i],sizeof(boardheader_t),i+1);
 +	 }
-+       else if(!(bcache[i].brdattr & BRD_NOTRAN) && !istran[i]) 
++       else if(!(bcache[i].brdattr & BRD_NOTRAN) && !istran[i])
 +         {
 +	   while(SHM->Bbusystate) {safe_sleep(1);}
 +           SHM->Bbusystate = 1;
@@ -13906,10 +13905,10 @@ index 00000000..33e1f4d6
 +    return 0;
 +}
 diff --git a/util/shmctl.c b/util/shmctl.c
-index f87bd925..03065fb2 100644
+index 4057f492..bbbcd7a2 100644
 --- a/util/shmctl.c
 +++ b/util/shmctl.c
-@@ -647,7 +647,7 @@ int listbrd(int argc, char **argv)
+@@ -635,7 +635,7 @@ int listbrd(int argc, char **argv)
  
  	// SHOWBRDATTR(BRD_NOZAP);
  	SHOWBRDATTR(BRD_NOCOUNT);
@@ -13918,7 +13917,7 @@ index f87bd925..03065fb2 100644
  	SHOWBRDATTR(BRD_GROUPBOARD);
  	SHOWBRDATTR(BRD_HIDE);
  	SHOWBRDATTR(BRD_POSTMASK);
-@@ -662,7 +662,7 @@ int listbrd(int argc, char **argv)
+@@ -650,7 +650,7 @@ int listbrd(int argc, char **argv)
  	SHOWBRDATTR(BRD_BMCOUNT);
  	SHOWBRDATTR(BRD_SYMBOLIC);
  	SHOWBRDATTR(BRD_NOBOO);
@@ -13928,5 +13927,5 @@ index f87bd925..03065fb2 100644
  	SHOWBRDATTR(BRD_GUESTPOST);
  	SHOWBRDATTR(BRD_COOLDOWN);
 -- 
-2.14.1
+2.25.2
 
